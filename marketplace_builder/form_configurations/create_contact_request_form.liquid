@@ -1,8 +1,12 @@
 ---
 name: create_contact_request_form
-resource: Customization
+resource: contact_request
 resource_owner: anyone
-configuration:
+spam_protection:
+  recaptcha_v3:
+    action: signup
+    minimum_score: 0.7
+fields:
   properties:
     name:
       validation: { presence: true }
@@ -26,6 +30,7 @@ email_notifications:
 flash_notice: Thank you for your request. We will contact you shortly.
 ---
 {% form html-class: 'contact-form' %}
+  {% spam_protection "recaptcha_v3", action: "signup" %}
   {% assign f = form_builder.fields.properties %}
   {% include 'forms/errors' %}
 
@@ -67,4 +72,5 @@ flash_notice: Thank you for your request. We will contact you shortly.
   </div>
 
   <button class="btn btn-primary float-right">Send</button>
+
 {% endform %}
